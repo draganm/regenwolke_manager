@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: https://github.com/draganm/regenwolke_autons.git
-  revision: fe0a4bd55967d0c77bf1387634dab0c4e2be3d1a
+  revision: 0c6548cd41227cd00ca93155a6a1e07eb24ce318
   specs:
     regenwolke_autons (0.0.9)
       docker-api (~> 1.17.0)
