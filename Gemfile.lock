@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/draganm/nestene.git
-  revision: 46732aa55ca536b0b6cc75cad5a8492ff415563e
+  revision: f4e690bfd263f7dc6727fd5652ffad1dd381fd0c
   specs:
     nestene (0.2.0)
       celluloid
@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: https://github.com/draganm/regenwolke_autons.git
-  revision: 0c6548cd41227cd00ca93155a6a1e07eb24ce318
+  revision: c6387a9649c96eac725f2925e072481df05b2a8d
   specs:
     regenwolke_autons (0.0.9)
       docker-api (~> 1.17.0)
