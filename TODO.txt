@@ -1,0 +1,18 @@
+to do:
+
+  Must:
+  - Add UI listing applications and status of Regenwolke Platform
+  - Add delete application functionality
+  - Add UI for each application
+  - Add Backup functionality for the whole platform
+  - Add Postgresql service
+  - Add Mysql service
+  - Add ElasticSearch service
+
+  Maybe:
+  - Add statistics of each application (requests/sec history)
+  - Add problem reporting UI
+  - Multiple instances of application / Scaling
+
+
+done:
