@@ -1,17 +1,18 @@
 GIT
   remote: https://github.com/draganm/nestene.git
-  revision: 746f92f7663c001fdf3193bc6501a793127bd0a4
+  revision: b6d60e4faadaa187237cc82687872e5720bc3719
   specs:
     nestene (0.2.1)
       celluloid
       haml
+      jwt
       puma
       sinatra
       structure_mapper
 
 GIT
   remote: https://github.com/draganm/regenwolke_autons.git
-  revision: 3fb1fa189d94d479cdf0b58281e71dd1df96b5d8
+  revision: b24150a77967654c4fb42ab2ac0a46537ddb11e4
   specs:
     regenwolke_autons (0.0.9)
       docker-api (~> 1.17.0)
@@ -57,6 +58,7 @@ GEM
       tilt
     hitimes (1.2.2)
     json (1.8.1)
+    jwt (1.2.0)
     method_source (0.8.2)
     mime-types (2.4.3)
     mini_portile (0.6.1)
