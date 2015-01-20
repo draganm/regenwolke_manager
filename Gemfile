@@ -12,7 +12,7 @@ group :development, :test do
   gem 'rspec'
   gem 'capybara'
   gem 'pry'
-  gem 'pry-debugger'
+  gem 'pry-byebug'
   gem 'rack-test'
 end
 
