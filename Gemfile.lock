@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/draganm/nestene.git
-  revision: 3ad66353f1d8bdcf341102f7e55d3b3bd79aaf0e
+  revision: f0e15f88b275c5f613ba1fff4077a700773e7e0b
   specs:
     nestene (0.2.1)
       celluloid
