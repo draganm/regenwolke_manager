@@ -1,0 +1,60 @@
+!!!
+%html
+  %head
+    %title Regenwolke Manager
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
+    / Bootstrap
+    %link{:href => url("/vendor/bootstrap/css/bootstrap.min.css"), :rel => "stylesheet"}
+      / HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
+      / WARNING: Respond.js doesn't work if you view the page via file://
+      /[if lt IE 9]
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+  %body{'ng-app' => 'nestene', 'ng-controller' => 'PageController'}
+    / Static navbar
+    .navbar.navbar-default{:role => "navigation"}
+      .container-fluid
+        .navbar-header
+          %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.navbar-brand{:href => url("/")} Regenwolke Manager
+        .navbar-collapse.collapse
+          %form.navbar-form.navbar-nav.navbar-right{'ng-submit' => 'logIn()', 'ng-show' => '!loggedIn'}
+            .form-group
+              %input.form-control{type: 'text', placeholder: 'Username', 'ng-model' => 'username', name: 'username'}
+            .form-group
+              %input.form-control{type: 'password', placeholder: 'Password', 'ng-model' => 'password', name: 'password'}
+            %button.btn.btn-default Log In
+          %form.navbar-form.navbar-nav.navbar-right{'ng-submit' => 'logOut()', 'ng-show' => 'loggedIn'}
+            %button.btn.btn-default Log Out
+        / %span.navbar-text.navbar-nav.navbar-right{'ng-show' => 'loggedIn'}
+        /   Logged in
+      .container-fluid
+        .well
+          Hi
+  /   .container-fluid{'ng-if' => 'loggedIn', 'ng-controller' => 'TabsController'}
+  /     %tabset
+  /       %tab{heading: 'Running Autons'}
+  /         %ul.list-group#auton_list{'ng-controller' => 'AutonsController'}
+  /           %li.list-group-item{'ng-repeat' => '(autonName, autonState) in autons'}
+  /             %button.btn{'ng-class' => '{"btn-success": autonState == "ready", "btn-danger": autonState == "failed", "btn-primary": autonState == "running"}', 'ng-click' => 'openAutonTab(autonName);'} {{autonName}}
+  /       %tab{heading: 'Create Auton'}
+  /         .panel.panel-default{'ng-controller' => 'CreateAutonFormController'}
+  /           .panel-heading Create New Auton
+  /           .panel-body
+  /             %form{role: 'form'}
+  /               .form-group
+  /                 %label{for: 'auton_type'} Auton Type
+  /                 %input#auton_type.form-control{type: 'text', placeholder: 'Type', 'ng-model' => 'autonType', 'required' => true, list: 'auton_types'}
+  /                 %datalist#auton_types
+  /                   %option{'ng-repeat' => 'option in auton_types', 'ng-value' => 'option'}
+  /               %button#create.btn.btn-default{type: 'submit', 'ng-click' => 'createAuton()'}Create
+  /       %tab{'ng-repeat' => 'auton in autons', heading: 'Auton {{ auton.auton_id }}', active: 'auton.active', disabled: 'auton.disabled'}= haml :auton_partial
+  / %script{:src => url("/vendor/jquery.min.js")}
+  / %script{:src => url("/vendor/jquery-ui.min.js")}
+  / %script{:src => url("/vendor/angular.min.js")}
+  / %script{:src => url("/vendor/ui-bootstrap-tpls.min.js")}
+  / %script{:src => url("/app/application.js")}

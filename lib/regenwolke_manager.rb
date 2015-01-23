@@ -7,6 +7,10 @@ class RegenwolkeManager < Sinatra::Base
   set :show_exceptions, false
   set :raise_errors, true
 
+  get '/' do
+    haml :index
+  end
+
   post '/new_deployment' do
 
 
