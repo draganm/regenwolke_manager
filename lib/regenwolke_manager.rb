@@ -38,6 +38,10 @@ class RegenwolkeManager < Sinatra::Base
     haml :log_in
   end
 
+  get '/status_template' do
+    haml :status_template
+  end
+
 
   post '/log_in' do
     content_type :text

@@ -3,7 +3,7 @@
     .jumbotron
       %h2
         Please Enter your Credentials
-      %form{'ng-submit' => 'log_in()', name: 'form', novalidate: true}
+      %form{'ng-submit' => 'logIn()', name: 'form', novalidate: true}
         .form-group
           %label Username
           %input.form-control{type: 'text', 'ng-model' => 'adminUsername', required: true, name: 'adminUsername'}

@@ -22,7 +22,7 @@
             %span.icon-bar
           %a.navbar-brand{:href => url("/")} Regenwolke Manager
         .navbar-collapse.collapse
-          %ul.nav.navbar-nav.navbar-right{'ng-if' => '$rootScope.loggedIn'}
+          %ul.nav.navbar-nav{'ng-if' => '$root.loggedIn'}
             %li{class: 'active'}
               %a{href: '#'} Status
             %li
@@ -31,29 +31,7 @@
               %a{href: '#'} Services
             %li
               %a{href: '/nestene'} Nestene
-            / %li{class: is_in_area(:services,'active')}
-            /   %a{href: services_path} Services
-            / %li{class: is_in_area(:contact,'active')}
-            /   %a{href: contact_path} Contact
     .container-fluid{'ng-view' => true}
-  /   .container-fluid{'ng-if' => 'loggedIn', 'ng-controller' => 'TabsController'}
-  /     %tabset
-  /       %tab{heading: 'Running Autons'}
-  /         %ul.list-group#auton_list{'ng-controller' => 'AutonsController'}
-  /           %li.list-group-item{'ng-repeat' => '(autonName, autonState) in autons'}
-  /             %button.btn{'ng-class' => '{"btn-success": autonState == "ready", "btn-danger": autonState == "failed", "btn-primary": autonState == "running"}', 'ng-click' => 'openAutonTab(autonName);'} {{autonName}}
-  /       %tab{heading: 'Create Auton'}
-  /         .panel.panel-default{'ng-controller' => 'CreateAutonFormController'}
-  /           .panel-heading Create New Auton
-  /           .panel-body
-  /             %form{role: 'form'}
-  /               .form-group
-  /                 %label{for: 'auton_type'} Auton Type
-  /                 %input#auton_type.form-control{type: 'text', placeholder: 'Type', 'ng-model' => 'autonType', 'required' => true, list: 'auton_types'}
-  /                 %datalist#auton_types
-  /                   %option{'ng-repeat' => 'option in auton_types', 'ng-value' => 'option'}
-  /               %button#create.btn.btn-default{type: 'submit', 'ng-click' => 'createAuton()'}Create
-  /       %tab{'ng-repeat' => 'auton in autons', heading: 'Auton {{ auton.auton_id }}', active: 'auton.active', disabled: 'auton.disabled'}= haml :auton_partial
   %script{:src => url("/vendor/jquery.min.js")}
   %script{:src => url("/vendor/jquery-ui.min.js")}
   %script{:src => url("/vendor/angular.min.js")}
