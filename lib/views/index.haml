@@ -10,7 +10,7 @@
       /[if lt IE 9]
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-  %body{'ng-app' => 'nestene', 'ng-controller' => 'PageController'}
+  %body{'ng-app' => 'regenwolkeManager'}
     / Static navbar
     .navbar.navbar-default{:role => "navigation"}
       .container-fluid
@@ -22,16 +22,17 @@
             %span.icon-bar
           %a.navbar-brand{:href => url("/")} Regenwolke Manager
         .navbar-collapse.collapse
-          %form.navbar-form.navbar-nav.navbar-right{'ng-submit' => 'logIn()', 'ng-show' => '!loggedIn'}
-            .form-group
-              %input.form-control{type: 'text', placeholder: 'Username', 'ng-model' => 'username', name: 'username'}
-            .form-group
-              %input.form-control{type: 'password', placeholder: 'Password', 'ng-model' => 'password', name: 'password'}
-            %button.btn.btn-default Log In
-          %form.navbar-form.navbar-nav.navbar-right{'ng-submit' => 'logOut()', 'ng-show' => 'loggedIn'}
-            %button.btn.btn-default Log Out
-        / %span.navbar-text.navbar-nav.navbar-right{'ng-show' => 'loggedIn'}
-        /   Logged in
+          %ul.nav.navbar-nav.navbar-right
+            %li{class: 'active'}
+              %a Applications
+            %li
+              %a{href: '#'} Services
+            %li
+              %a{href: '/nestene'} Nestene
+            / %li{class: is_in_area(:services,'active')}
+            /   %a{href: services_path} Services
+            / %li{class: is_in_area(:contact,'active')}
+            /   %a{href: contact_path} Contact
       .container-fluid
         .well
           Hi
@@ -53,8 +54,9 @@
   /                   %option{'ng-repeat' => 'option in auton_types', 'ng-value' => 'option'}
   /               %button#create.btn.btn-default{type: 'submit', 'ng-click' => 'createAuton()'}Create
   /       %tab{'ng-repeat' => 'auton in autons', heading: 'Auton {{ auton.auton_id }}', active: 'auton.active', disabled: 'auton.disabled'}= haml :auton_partial
-  / %script{:src => url("/vendor/jquery.min.js")}
-  / %script{:src => url("/vendor/jquery-ui.min.js")}
-  / %script{:src => url("/vendor/angular.min.js")}
-  / %script{:src => url("/vendor/ui-bootstrap-tpls.min.js")}
-  / %script{:src => url("/app/application.js")}
+  %script{:src => url("/vendor/jquery.min.js")}
+  %script{:src => url("/vendor/jquery-ui.min.js")}
+  %script{:src => url("/vendor/angular.min.js")}
+  %script{:src => url("/vendor/angular-route.min.js")}  
+  %script{:src => url("/vendor/ui-bootstrap-tpls.min.js")}
+  %script{:src => url("/app/application.js")}
