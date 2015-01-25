@@ -124,6 +124,7 @@ DEPENDENCIES
   capybara
   cucumber
   haml
+  jwt
   nestene!
   pry
   pry-byebug

@@ -6,6 +6,7 @@ gem 'regenwolke_autons', git: 'https://github.com/draganm/regenwolke_autons.git'
 gem 'puma'
 gem 'sinatra'
 gem 'haml'
+gem 'jwt'
 
 group :development, :test do
   gem 'cucumber', require: false

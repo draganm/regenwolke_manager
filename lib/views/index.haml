@@ -35,7 +35,7 @@
             /   %a{href: services_path} Services
             / %li{class: is_in_area(:contact,'active')}
             /   %a{href: contact_path} Contact
-      .container-fluid{'ng-view' => true}
+    .container-fluid{'ng-view' => true}
   /   .container-fluid{'ng-if' => 'loggedIn', 'ng-controller' => 'TabsController'}
   /     %tabset
   /       %tab{heading: 'Running Autons'}
