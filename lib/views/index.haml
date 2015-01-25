@@ -22,8 +22,10 @@
             %span.icon-bar
           %a.navbar-brand{:href => url("/")} Regenwolke Manager
         .navbar-collapse.collapse
-          %ul.nav.navbar-nav.navbar-right
+          %ul.nav.navbar-nav.navbar-right{'ng-if' => '$rootScope.loggedIn'}
             %li{class: 'active'}
+              %a{href: '#'} Status
+            %li
               %a Applications
             %li
               %a{href: '#'} Services
@@ -33,9 +35,7 @@
             /   %a{href: services_path} Services
             / %li{class: is_in_area(:contact,'active')}
             /   %a{href: contact_path} Contact
-      .container-fluid
-        .well
-          Hi
+      .container-fluid{'ng-view' => true}
   /   .container-fluid{'ng-if' => 'loggedIn', 'ng-controller' => 'TabsController'}
   /     %tabset
   /       %tab{heading: 'Running Autons'}

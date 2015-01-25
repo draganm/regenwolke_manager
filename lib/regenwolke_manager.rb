@@ -11,6 +11,11 @@ class RegenwolkeManager < Sinatra::Base
     haml :index
   end
 
+  get '/log_in' do
+    haml :log_in
+  end
+
+
   post '/new_deployment' do
 
 

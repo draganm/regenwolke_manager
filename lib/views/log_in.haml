@@ -1,0 +1,15 @@
+.row
+  %h1
+.row
+  .col-md-6.col-md-offset-3
+    .jumbotron
+      %h2
+        Please Enter your Credentials
+      %form{'ng-submit' => 'log_in()', name: 'form', novalidate: true}
+        .form-group
+          %label Username
+          %input.form-control{type: 'text', 'ng-model' => 'adminUsername', required: true, name: 'adminUsername'}
+        .form-group
+          %label Password
+          %input.form-control{type: 'password', 'ng-model' => 'adminPassword', required: true, name: 'adminPassword'}
+        %button.btn.btn-success{type: 'submit', 'ng-disabled' => '!form.$valid'} Log In
