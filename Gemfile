@@ -1,6 +1,6 @@
 # A sample Gemfile
 source "https://rubygems.org"
-ruby '2.1.5'
+ruby '2.2.0'
 gem 'nestene', git: 'https://github.com/draganm/nestene.git'
 gem 'regenwolke_autons', git: 'https://github.com/draganm/regenwolke_autons.git'
 gem 'puma'
