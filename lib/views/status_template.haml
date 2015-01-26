@@ -1,2 +1,7 @@
-.well
-  Status
+.panel.panel-default
+  .panel-heading
+    Running Applications
+  .panel-body
+    .list-group{'ng-controller' => 'ApplicationListController'}
+      %a.list-group-item{'ng-repeat' => 'application in applications'}
+        {{ application }}

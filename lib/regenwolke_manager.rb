@@ -42,6 +42,9 @@ class RegenwolkeManager < Sinatra::Base
     haml :status_template
   end
 
+  get '/applications' do
+    Celluloid::Actor[:nestene_core].get_state('regenwolke').serialized.fetch('applications').to_json
+  end
 
   post '/log_in' do
     content_type :text
