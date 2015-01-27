@@ -1,4 +1,5 @@
 require 'docker'
+require 'socket'
 
 module RegenwolkeAutons
 
@@ -42,7 +43,20 @@ module RegenwolkeAutons
       self.container_id = container.id
       
       self.host_ip = container.json['NetworkSettings']['IPAddress']
-      context.schedule_step(:notify_application)
+      context.schedule_step(:wait_for_container_to_start)
+    end
+
+    def wait_for_container_to_start(retries = 0)
+
+      if retries > 9
+        raise "could not start after 9 retries"
+      end
+
+      if endpoint_responding?
+        context.schedule_step(:notify_application)
+      else
+        context.schedule_delayed_step 3, :wait_for_container_to_start, [retries + 1]
+      end
     end
 
     def notify_application
@@ -54,6 +68,20 @@ module RegenwolkeAutons
       container = Docker::Container.get(self.container_id)
       container.delete(:force => true)
       context.terminate
+    end
+
+
+    private
+
+    def endpoint_responding?
+      socket = TCPSocket.new host_ip, 5000
+      socket.write "GET / HTTP/1.0\r\n"
+      socket.write "\r\n"
+      line = socket.readline
+      status = line.split(' ')[1]
+      ['3','4','1'].include? status[0]      
+    rescue Errno::ECONNREFUSED => e
+      false
     end
 
 

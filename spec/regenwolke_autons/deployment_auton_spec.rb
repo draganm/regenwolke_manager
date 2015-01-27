@@ -59,13 +59,42 @@ module RegenwolkeAutons
       end
 
       it 'should schedule :notify_application' do
-        expect(context).to have_received(:schedule_step).with(:notify_application)
+        expect(context).to have_received(:schedule_step).with(:wait_for_container_to_start)
       end
 
       it 'should store container id' do
         expect(subject.container_id).to eq('docker_id')
       end
 
+    end
+
+    describe '#wait_for_container_to_start' do
+      context 'when the application is not running' do
+        before do
+          expect(subject).to receive(:endpoint_responding?).and_return(false)
+        end
+        it 'should re-schedule self execution in 3 seconds and increase number of retries' do
+          expect(context).to receive(:schedule_delayed_step).with(3,:wait_for_container_to_start, [1])
+          subject.wait_for_container_to_start
+        end
+      end
+
+      context 'when the application is not running' do
+        before do
+          expect(subject).to receive(:endpoint_responding?).and_return(true)
+        end
+        it 'should re-schedule self execution in 3 seconds and increase number of retries' do
+          expect(context).to receive(:schedule_step).with(:notify_application)
+          subject.wait_for_container_to_start
+        end
+      end
+
+      context 'when the number of retries is > 10' do
+        it 'should raise an exception' do
+          expect{subject.wait_for_container_to_start(10)}.to raise_error
+        end
+      end
+      
     end
 
     describe '#notify_application' do
