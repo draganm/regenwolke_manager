@@ -2,11 +2,12 @@
 source "https://rubygems.org"
 ruby '2.2.0'
 gem 'nestene', git: 'https://github.com/draganm/nestene.git'
-gem 'regenwolke_autons', git: 'https://github.com/draganm/regenwolke_autons.git'
 gem 'puma'
 gem 'sinatra'
 gem 'haml'
 gem 'jwt'
+gem "structure_mapper", "~> 0.0.2"
+gem "docker-api", '~> 1.17.0'
 
 group :development, :test do
   gem 'cucumber', require: false

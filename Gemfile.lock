@@ -10,15 +10,6 @@ GIT
       sinatra-websocket
       structure_mapper
 
-GIT
-  remote: https://github.com/draganm/regenwolke_autons.git
-  revision: 08632248c821bd1b3b28c3b17a112c712acb7aad
-  specs:
-    regenwolke_autons (0.0.9)
-      docker-api (~> 1.17.0)
-      nestene (~> 0.2.1)
-      structure_mapper (~> 0.0.2)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -123,6 +114,7 @@ PLATFORMS
 DEPENDENCIES
   capybara
   cucumber
+  docker-api (~> 1.17.0)
   haml
   jwt
   nestene!
@@ -130,6 +122,6 @@ DEPENDENCIES
   pry-byebug
   puma
   rack-test
-  regenwolke_autons!
   rspec
   sinatra
+  structure_mapper (~> 0.0.2)
