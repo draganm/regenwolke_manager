@@ -41,7 +41,7 @@ module RegenwolkeAutons
       )
       container.start
       self.container_id = container.id
-      
+
       self.host_ip = container.json['NetworkSettings']['IPAddress']
       context.schedule_step(:wait_for_container_to_start)
     end
@@ -62,6 +62,13 @@ module RegenwolkeAutons
     def notify_application
       application_auton_id = "application:%s" % application_name
       context.schedule_step_on_auton(application_auton_id, :deployment_complete, [self.git_sha1, self.host_ip, 5000])
+      context.schedule_repeating_delayed_step 30, 0, :check_container
+    end
+
+    def check_container
+      container = Docker::Container.get(self.container_id)
+      running = container.json['State']['Running']
+      container.start unless running
     end
 
     def terminate

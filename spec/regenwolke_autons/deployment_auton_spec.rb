@@ -94,12 +94,12 @@ module RegenwolkeAutons
           expect{subject.wait_for_container_to_start(10)}.to raise_error
         end
       end
-      
+
     end
 
     describe '#notify_application' do
 
-      it "should schedule :deployment_complete step with sha1 of the deployment and port number on the application auton" do
+      it "should schedule :deployment_complete step with sha1 of the deployment and port number on the application auton and schedule repeating of container check" do
         subject.application_name = 'some_app'
         subject.git_sha1 = 'some_sha1'
         subject.host_ip = '1.2.3.4'
@@ -107,9 +107,38 @@ module RegenwolkeAutons
         subject.context = context
 
         expect(context).to receive(:schedule_step_on_auton).with("application:some_app", :deployment_complete, ['some_sha1', '1.2.3.4', 5000])
+        expect(context).to receive(:schedule_repeating_delayed_step).with(30,0 , :check_container)
+
 
         subject.notify_application
 
+      end
+    end
+
+    describe '#check_container' do
+      let (:container) {double :container}
+
+      context "when the container is running" do
+        before do
+          subject.container_id = 'some_id'
+          expect(Docker::Container).to receive(:get).with('some_id').and_return(container)
+          expect(container).to receive(:json).and_return({'State' => {'Running' => true}})
+        end
+        it "should not do anything" do
+          subject.check_container
+        end
+      end
+
+      context "when the container is not running" do
+        before do
+          subject.container_id = 'some_id'
+          expect(Docker::Container).to receive(:get).with('some_id').and_return(container)
+          expect(container).to receive(:json).and_return({'State' => {'Running' => false}})
+        end
+        it "should start the container" do
+          expect(container).to receive(:start)
+          subject.check_container
+        end
       end
     end
 
