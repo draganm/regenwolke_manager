@@ -61,19 +61,25 @@ module RegenwolkeAutons
 
     def notify_application
       application_auton_id = "application:%s" % application_name
+      context.schedule_delayed_step 30, :check_container
       context.schedule_step_on_auton(application_auton_id, :deployment_complete, [self.git_sha1, self.host_ip, 5000])
-      context.schedule_repeating_delayed_step 30, 0, :check_container
     end
 
     def check_container
       container = Docker::Container.get(self.container_id)
       running = container.json['State']['Running']
-      container.start unless running
+      unless running
+        self.container_id = nil
+        container.delete(force: true)
+        context.schedule_step :start_container
+      else
+        context.schedule_delayed_step 60, :check_container
+      end
     end
 
     def terminate
       container = Docker::Container.get(self.container_id)
-      container.delete(:force => true)
+      container.delete(force: true)
       context.terminate
     end
 

@@ -107,7 +107,7 @@ module RegenwolkeAutons
         subject.context = context
 
         expect(context).to receive(:schedule_step_on_auton).with("application:some_app", :deployment_complete, ['some_sha1', '1.2.3.4', 5000])
-        expect(context).to receive(:schedule_repeating_delayed_step).with(30,0 , :check_container)
+        expect(context).to receive(:schedule_delayed_step).with(30 , :check_container)
 
 
         subject.notify_application
@@ -124,7 +124,8 @@ module RegenwolkeAutons
           expect(Docker::Container).to receive(:get).with('some_id').and_return(container)
           expect(container).to receive(:json).and_return({'State' => {'Running' => true}})
         end
-        it "should not do anything" do
+        it "should schedule next check in 60 seconds" do
+          expect(context).to receive(:schedule_delayed_step).with(60,:check_container)
           subject.check_container
         end
       end
@@ -135,9 +136,11 @@ module RegenwolkeAutons
           expect(Docker::Container).to receive(:get).with('some_id').and_return(container)
           expect(container).to receive(:json).and_return({'State' => {'Running' => false}})
         end
-        it "should start the container" do
-          expect(container).to receive(:start)
+        it "should delete the container, schedule #start_container and set container_id not nil" do
+          expect(container).to receive(:delete).with(force: true)
+          expect(context).to receive(:schedule_step).with(:start_container)
           subject.check_container
+          expect(subject.container_id).to be_nil
         end
       end
     end
