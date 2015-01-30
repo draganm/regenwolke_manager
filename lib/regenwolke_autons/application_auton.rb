@@ -6,6 +6,7 @@ module RegenwolkeAutons
   class CurrentDeployment
     include StructureMapper::Hash
     attribute git_sha1: String
+    attribute host_ip: String
     attribute port: Fixnum
   end
 
@@ -39,15 +40,16 @@ module RegenwolkeAutons
     end
 
 
-    def deployment_complete(git_sha1, host, port)
+    def deployment_complete(git_sha1, host_ip, port)
 
-      if current_deployment
+      if current_deployment && current_deployment.git_sha1 != git_sha1
         deployment_name = "deployment:%s:%s" % [application_name, current_deployment.git_sha1]
         context.schedule_step_on_auton deployment_name, :terminate
       end
 
       self.current_deployment = CurrentDeployment.from_structure({
         'git_sha1' => git_sha1,
+        'host_ip' => host_ip,
         'port' => port
       })
 
@@ -57,7 +59,7 @@ module RegenwolkeAutons
           'host_matcher' => host_matcher,
           'endpoints' => [
             {
-              'hostname' => host,
+              'hostname' => host_ip,
               'port' => port
             }
           ]

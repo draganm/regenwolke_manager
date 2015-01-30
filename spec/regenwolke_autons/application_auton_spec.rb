@@ -66,24 +66,50 @@ module RegenwolkeAutons
         end
       end
 
+
       context 'when there is already a running deployment' do
 
-        before do
-          subject.current_deployment = CurrentDeployment.from_structure({
-            'git_sha1' => 'old_sha',
-            'port' => 333
-          })
+        context 'when the running deployment is different from this one' do
+          before do
+            subject.current_deployment = CurrentDeployment.from_structure({
+              'git_sha1' => 'old_sha',
+              'host_ip' => '1.2.3.4',
+              'port' => 333
+            })
+          end
+          it 'should change endpoints on nginx and terminate existing deployment' do
 
+            expect(context).to receive(:schedule_step_on_auton).with("nginx", :update_application_configuration, ["app1", {"host_matcher"=>"app1\\..+", "endpoints"=>[{"hostname"=>"1.2.3.4", "port"=>123}]}])
+            expect(context).to receive(:schedule_step_on_auton).with("deployment:app1:old_sha", :terminate)
 
+            subject.deployment_complete('some_sha','1.2.3.4',123)
+            expect(subject.current_deployment.git_sha1).to eq('some_sha')
+            expect(subject.current_deployment.host_ip).to eq('1.2.3.4')
+            expect(subject.current_deployment.port).to eq(123)
+          end
         end
 
-        it 'should change endpoints on nginx and terminate existing deployment' do
+        context 'when the running deployment is not different from this one' do
+          before do
+            subject.current_deployment = CurrentDeployment.from_structure({
+              'git_sha1' => 'some_sha',
+              'host_ip' => '8.2.3.4',
+              'port' => 333
+            })
+          end
 
-          expect(context).to receive(:schedule_step_on_auton).with("nginx", :update_application_configuration, ["app1", {"host_matcher"=>"app1\\..+", "endpoints"=>[{"hostname"=>"1.2.3.4", "port"=>123}]}])
-          expect(context).to receive(:schedule_step_on_auton).with("deployment:app1:old_sha", :terminate)
+          it 'should change endpoints on nginx and not terminate existing deployment' do
 
-          subject.deployment_complete('some_sha','1.2.3.4',123)
+            expect(context).to receive(:schedule_step_on_auton).with("nginx", :update_application_configuration, ["app1", {"host_matcher"=>"app1\\..+", "endpoints"=>[{"hostname"=>"1.2.3.4", "port"=>123}]}])
+            expect(context).to_not receive(:schedule_step_on_auton).with("deployment:app1:some_sha", :terminate)
+
+            subject.deployment_complete('some_sha','1.2.3.4',123)
+            expect(subject.current_deployment.git_sha1).to eq('some_sha')
+            expect(subject.current_deployment.host_ip).to eq('1.2.3.4')
+            expect(subject.current_deployment.port).to eq(123)
+          end
         end
+
       end
 
     end
