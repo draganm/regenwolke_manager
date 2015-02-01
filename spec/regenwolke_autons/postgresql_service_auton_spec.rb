@@ -8,6 +8,13 @@ module RegenwolkeAutons
       subject.context = context
     end
 
+    describe '#start' do
+      let (:context) {double :context}
+      it 'does nothing' do
+        subject.start
+      end
+    end
+
     describe '#create_instance' do
 
       context 'when the instance does not exist' do
@@ -50,7 +57,7 @@ module RegenwolkeAutons
 
           it 'should schedule add_instance_to_application with same parameters on the instance' do
             subject.add_instance_to_application 'instancename', 'app1', true
-            expect(context).to have_received(:schedule_step_on_auton).with('postgresql:instancename', :add_instance_to_application, ['instancename', 'app1', true])
+            expect(context).to have_received(:schedule_step_on_auton).with('postgresql:instancename', :add_instance_to_application, ['app1', true])
           end
         end
       end
