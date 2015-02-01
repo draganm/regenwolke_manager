@@ -32,17 +32,26 @@ module RegenwolkeAutons
 
 
       context 'when the instance already exists' do
-
         let (:context) {double :context}
-
         before do
           subject.instances = {"instancename"=>"postgresql:instancename"}
         end
-
         it 'should not do anything' do
-
           subject.create_instance 'instancename'
+        end
+      end
 
+      describe '#add_instance_to_application' do
+        context 'when instance exists' do
+
+          before do
+            subject.instances = {"instancename"=>"postgresql:instancename"}
+          end
+
+          it 'should schedule add_instance_to_application with same parameters on the instance' do
+            subject.add_instance_to_application 'instancename', 'app1', true
+            expect(context).to have_received(:schedule_step_on_auton).with('postgresql:instancename', :add_instance_to_application, ['instancename', 'app1', true])
+          end
         end
       end
 
