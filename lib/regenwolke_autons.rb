@@ -3,6 +3,7 @@ require 'regenwolke_autons/regenwolke_auton'
 require 'regenwolke_autons/application_auton'
 require 'regenwolke_autons/deployment_auton'
 require 'regenwolke_autons/nginx_auton'
+require 'regenwolke_autons/postgresql_service_auton'
 require "regenwolke_autons/version"
 
 

@@ -66,6 +66,7 @@ module RegenwolkeAutons
     end
 
     def check_container
+      # Docker::Error::NotFoundError
       container = Docker::Container.get(self.container_id)
       running = container.json['State']['Running']
       unless running
