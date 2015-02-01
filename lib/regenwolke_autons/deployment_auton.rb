@@ -9,17 +9,22 @@ module RegenwolkeAutons
     attribute git_sha1: String
     attribute host_ip: String
     attribute container_id: String
+    attribute environment: {String => String}
 
     attr_accessor :context
 
-    def start(application_name, git_sha1)
+    def start(application_name, git_sha1, environment)
       self.application_name = application_name
       self.git_sha1 = git_sha1
       context.schedule_step(:start_container)
+      self.environment = environment
     end
 
     def start_container
       # TODO extract creation of container config to a method and thorroughly test it
+
+      container_env = self.environment.map {|k,v| [k,v].join('=')}
+
       container = Docker::Container.create(
         'Image' => 'dmilhdef/buildstep',
         'Cmd' => [
@@ -29,7 +34,7 @@ module RegenwolkeAutons
         ],
         "Env" => [
           "PORT=5000"
-        ],
+        ] + container_env,
         "ExposedPorts" => {
           "5000/tcp" => {}
         },
@@ -70,8 +75,7 @@ module RegenwolkeAutons
       container = Docker::Container.get(self.container_id)
       running = container.json['State']['Running']
       unless running
-        self.container_id = nil
-        container.delete(force: true)
+        context.schedule_step :stop_container
         context.schedule_step :start_container
       else
         context.schedule_delayed_step 60, :check_container
@@ -79,9 +83,20 @@ module RegenwolkeAutons
     end
 
     def terminate
+      stop_container
+      context.terminate
+    end
+
+    def set_environment(new_environment)
+      self.environment = new_environment
+      context.schedule_step(:stop_container)
+      context.schedule_step(:start_container)
+    end
+
+    def stop_container
       container = Docker::Container.get(self.container_id)
       container.delete(force: true)
-      context.terminate
+      self.container_id = nil
     end
 
 
