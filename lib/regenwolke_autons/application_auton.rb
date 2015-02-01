@@ -17,9 +17,12 @@ module RegenwolkeAutons
 
     attribute current_deployment: CurrentDeployment
 
+    attribute environment: {String => String}
+
     attr_accessor :context
 
     def start(application_name)
+      self.environment = {}
       self.application_name = application_name
       if application_name.include?('.')
         if application_name.start_with?('www.')
@@ -36,7 +39,16 @@ module RegenwolkeAutons
     def deploy(git_sha1)
       deployment_name = "deployment:%s:%s" % [application_name, git_sha1]
       context.create_auton 'RegenwolkeAutons::DeploymentAuton', deployment_name
-      context.schedule_step_on_auton deployment_name, :start, [application_name, git_sha1]
+      context.schedule_step_on_auton deployment_name, :start, [application_name, git_sha1, environment]
+    end
+
+    def set_environment(values)
+      self.environment.merge!(values)
+      if current_deployment
+        deployment_name = "deployment:%s:%s" % [application_name, current_deployment.git_sha1]
+        context.schedule_step_on_auton deployment_name, :set_environment, [environment]
+      end
+
     end
 
 
