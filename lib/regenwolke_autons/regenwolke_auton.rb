@@ -15,6 +15,8 @@ module RegenwolkeAutons
     def start
       context.create_auton('RegenwolkeAutons::NginxAuton', 'nginx')
       context.schedule_step_on_auton('nginx', :start)
+      context.create_auton('RegenwolkeAutons::PostgresqlServiceAuton', 'postgresql_service')
+      context.schedule_step_on_auton('postgresql_service', :start)
     end
 
     def deploy_application(name, git_sha1)
