@@ -14,8 +14,8 @@ module RegenwolkeAutons
       it "starts nginx and port_manager" do
         expect(context).to receive(:create_auton).with("RegenwolkeAutons::NginxAuton", "nginx")
         expect(context).to receive(:schedule_step_on_auton).with("nginx", :start)
-        expect(context).to receive(:create_auton).with("RegenwolkeAutons::PostgresqlServiceAuton", "postgresql_service")
-        expect(context).to receive(:schedule_step_on_auton).with("postgresql_service", :start)
+        expect(context).to receive(:create_auton).with("RegenwolkeAutons::PostgresqlServiceAuton", "service:postgresql")
+        expect(context).to receive(:schedule_step_on_auton).with("service:postgresql", :start)
 
         subject.start
       end
