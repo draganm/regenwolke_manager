@@ -28,7 +28,7 @@
             %li
               %a Applications
             %li
-              %a{href: '#'} Services
+              %a{href: '#/services'} Services
             %li
               %a{href: '/nestene'} Nestene
           %button.btn.btn-default.navbar-btn.navbar-right{'ng-click' => 'logOut()', 'ng-if' => '$root.loggedIn'} Log Out
@@ -36,6 +36,6 @@
   %script{:src => url("/vendor/jquery.min.js")}
   %script{:src => url("/vendor/jquery-ui.min.js")}
   %script{:src => url("/vendor/angular.min.js")}
-  %script{:src => url("/vendor/angular-route.min.js")}  
+  %script{:src => url("/vendor/angular-route.min.js")}
   %script{:src => url("/vendor/ui-bootstrap-tpls.min.js")}
   %script{:src => url("/app/application.js")}

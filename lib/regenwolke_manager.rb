@@ -3,7 +3,7 @@ require 'regenwolke_autons'
 require 'json'
 require 'jwt'
 
-UNPROTECTED_ENDPOINTS = ['/', '/log_in_template', '/log_in', '/new_deployment' ]
+UNPROTECTED_ENDPOINTS = ['/', '/log_in_template', '/log_in', '/new_deployment', '/services_template' ]
 
 class RegenwolkeManager < Sinatra::Base
 
@@ -42,9 +42,28 @@ class RegenwolkeManager < Sinatra::Base
     haml :status_template
   end
 
+  get '/services_template' do
+    haml :services_template
+  end
+
+
   get '/applications' do
     Celluloid::Actor[:nestene_core].get_state('regenwolke').serialized.fetch('applications').to_json
   end
+
+  get '/services' do
+    [
+      {
+        name:'PostgreSQL',
+        service_id: 'postgresql'
+      }
+    ].to_json
+  end
+
+  # get '/services/:service_id/instances' do
+
+  # end
+
 
   post '/log_in' do
     content_type :text
