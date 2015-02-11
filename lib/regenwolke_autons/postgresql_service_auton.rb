@@ -27,17 +27,12 @@ module RegenwolkeAutons
 
     end
 
-
     def add_instance_to_application instance_name, application_name, primary_database
       if instances.has_key?(instance_name)
         context.schedule_step_on_auton instances[instance_name], :add_instance_to_application, [application_name, primary_database]
       end
 
     end
-
-
-
-
 
   end
 

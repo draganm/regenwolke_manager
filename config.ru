@@ -5,6 +5,7 @@ $LOAD_PATH << 'lib'
 require 'nestene'
 require 'regenwolke_autons'
 require 'regenwolke_manager'
+require 'excon'
 
 Dir.mkdir('regenwolke') unless File.exists?('regenwolke')
 Dir.mkdir('regenwolke/storage') unless File.exists?('regenwolke/storage')

@@ -4,6 +4,12 @@
   .panel-body
     %accordion{'close-others' => "oneAtATime"}
       %accordion-group{heading: "{{service.name}}", 'ng-repeat' => "service in services"}
-        {{service.service_id}}
+        %div{'ng-controller' => 'ServiceController'}
+          %ul
+            %li{'ng-repeat' => 'serviceInstance in serviceInstances'} {{serviceInstance}}
+          %input{type: 'text', 'ng-model' => 'instanceName'}
+          %button.btn.btn-success{'ng-click' => 'createInstance()'} Create instance
+
+
 
 

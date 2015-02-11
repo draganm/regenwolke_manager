@@ -1,0 +1,7 @@
+.modal-header
+  %h3 Please enter Instance Name for the Service
+.modal-body
+  %input{type: 'text', 'ng-model' => 'serviceName'}
+.modal-footer
+  %button.btn.btn-primary{'ng-click' => 'create()'} Create
+  %button.btn.btn-warning{'ng-click' => 'cancel()'} Cancel

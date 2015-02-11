@@ -46,18 +46,35 @@ class RegenwolkeManager < Sinatra::Base
     haml :services_template
   end
 
+  get '/new_service_modal' do
+    haml :new_service_modal
+  end
+
 
   get '/applications' do
     Celluloid::Actor[:nestene_core].get_state('regenwolke').serialized.fetch('applications').to_json
   end
 
   get '/services' do
+    content_type :json
     [
       {
         name:'PostgreSQL',
         service_id: 'postgresql'
       }
     ].to_json
+  end
+
+  get '/services/:service_id' do
+    content_type :json
+    state = Celluloid::Actor[:nestene_core].get_state 'service:%s' % [params[:service_id]]
+    state.serialized.fetch('instances').keys.to_json
+  end
+
+  post '/services/:service_id' do
+    data = JSON.parse(request.body.read)
+    Celluloid::Actor[:nestene_core].schedule_step 'service:%s' % [params[:service_id]], :create_instance, [data.fetch('name')]
+    status 204
   end
 
   # get '/services/:service_id/instances' do
