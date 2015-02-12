@@ -109,7 +109,9 @@ module RegenwolkeAutons
       line = socket.readline
       status = line.split(' ')[1]
       ['2', '3','4','1'].include? status[0]
-    rescue Errno::ECONNREFUSED => e
+    rescue Errno::ECONNREFUSED
+      false
+    rescue Errno::ETIMEDOUT
       false
     end
 
