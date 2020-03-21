@@ -7,7 +7,7 @@ gem 'sinatra'
 gem 'haml'
 gem 'jwt'
 gem "structure_mapper", "~> 0.0.2"
-gem "docker-api", '~> 1.17.0'
+gem "docker-api", "~> 1.17.0"
 
 group :development, :test do
   gem 'cucumber', require: false
