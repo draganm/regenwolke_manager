@@ -2,7 +2,7 @@
 source "https://rubygems.org"
 ruby '2.2.0'
 gem 'nestene', git: 'https://github.com/draganm/nestene.git'
-gem 'puma'
+gem 'puma', '>= 3.12.6'
 gem 'sinatra'
 gem 'haml'
 gem 'jwt'
