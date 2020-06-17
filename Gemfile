@@ -2,8 +2,8 @@
 source "https://rubygems.org"
 ruby '2.2.0'
 gem 'nestene', git: 'https://github.com/draganm/nestene.git'
-gem 'puma'
-gem 'sinatra'
+gem 'puma', '>= 2.12.0'
+gem 'sinatra', '>= 2.0.0'
 gem 'haml'
 gem 'jwt'
 gem "structure_mapper", "~> 0.0.2"
@@ -12,10 +12,10 @@ gem "docker-api", '~> 1.17.0'
 group :development, :test do
   gem 'cucumber', require: false
   gem 'rspec'
-  gem 'capybara'
+  gem 'capybara', '>= 2.4.4'
   gem 'pry'
   gem 'pry-byebug'
-  gem 'rack-test'
+  gem 'rack-test', '>= 0.6.3'
 end
 
 
