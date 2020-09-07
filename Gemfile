@@ -10,7 +10,7 @@ gem "structure_mapper", "~> 0.0.2"
 gem "docker-api", '~> 1.17.0'
 
 group :development, :test do
-  gem 'cucumber', require: false
+  gem 'cucumber', '>= 4.0.0', require: false
   gem 'rspec'
   gem 'capybara'
   gem 'pry'
