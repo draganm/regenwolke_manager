@@ -12,7 +12,7 @@ gem "docker-api", '~> 1.17.0'
 group :development, :test do
   gem 'cucumber', require: false
   gem 'rspec'
-  gem 'capybara'
+  gem 'capybara', '>= 2.4.4'
   gem 'pry'
   gem 'pry-byebug'
   gem 'rack-test'
